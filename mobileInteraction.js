@@ -45,3 +45,18 @@ $('.cancel-btn').click(function(){
   //移除监听事件
   document.removeEventListener("touchmove", a, false);
 });
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//4.返回顶部
+$(function(){
+  $(window).scroll(function(){
+    if($(this).scrollTop()!=0 & $(this).scrollTop() != 1){
+      $('#top').fadeIn();
+    }else{
+      $('#top').fadeOut();
+    }
+  });
+  $('#top').on('click',function(){
+    $('html,body').animate({scrollTop:0},'1000');
+  });
+});
