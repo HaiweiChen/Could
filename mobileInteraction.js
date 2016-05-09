@@ -60,3 +60,33 @@ $(function(){
     $('html,body').animate({scrollTop:0},'1000');
   });
 });
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//5.列表滚动
+//jQuery.textSlider.js
+$(document).ready(function () {
+  $(".right").textSlider({ line: 1, speed: 500, timer: 1000 });
+});
+//6.数字滚动
+function number(str) {
+  var list = $('.number li');
+  var omm = $('#Allmm').val();
+  if (omm.indexOf('.') != -1) {
+    var omm1 = omm.split('.')[1];
+    if (omm1.lenght == 1) {
+      omm = omm + '0';
+    }
+  } else if (omm1.lenght == 0) {
+    omm = omm + '.00';
+  }
+  var str = omm.replace('.', '');
+  while (str.length < 11) {
+    str = '0' + str;
+  }
+  $('.number li').each(function () {
+    var index = list.index($(this));
+    var num = str.charAt(index);
+    var upHeight = '-' + 51 * num;
+    list.eq(index).find('div').animate({ marginTop: upHeight }, '500');
+  });
+}
