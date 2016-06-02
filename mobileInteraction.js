@@ -90,3 +90,25 @@ function number(str) {
     list.eq(index).find('div').animate({ marginTop: upHeight }, '500');
   });
 }
+//7.锁定bottom-list-wrapper区域以外cart-shadow的触摸事件
+$('.cart-shadow').bind('touchmove',function(e){
+  var target = $(e.target);
+  if(target.closest('.bottom-list-wrapper').lenght == 0){
+    return false;
+  }
+});
+//8. 加载时判断导航高光nav
+$(function () {
+    var url = window.location.href.toLowerCase();
+    var suburl = url;
+    if (url.indexOf("?") > -1) {
+        suburl = url.substring(0, url.indexOf("?"));
+    }
+    var spliturl = suburl.split('/');
+    var topurl = spliturl[spliturl.length - 1];
+    console.log(topurl);
+    var list = $('.top-nav .nav-list')
+    if (topurl == 'index.aspx') {
+        list.eq(0).addClass('nav-click').siblings().removeClass('nav-click');
+    }
+});
