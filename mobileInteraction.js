@@ -39,7 +39,7 @@ $('.pop-btn').click(function(){
   document.addEventListener("touchmove", a = function (e) {
     e.preventDefault();
   }, false);
-})；
+});
 $('.cancel-btn').click(function(){
   $(".shadow").hide();//弹窗图层隐藏
   //移除监听事件
@@ -112,3 +112,20 @@ $(function () {
         list.eq(0).addClass('nav-click').siblings().removeClass('nav-click');
     }
 });
+// 9.持续获取图片高度直到获取到为止
+$(function () {
+    hit = setInterval('listMargin()', 500);
+});
+function listMargin() {
+    $('.pro-list').each(function () {
+        var height = $(this).height();
+        console.log($('.pro-img').height());
+        $(this).find('.pro-left').css('margin-top', (height - 22) / 2);
+        $(this).find('.pro-img').css('margin-top', (height - $('.pro-img').height()) / 2);
+        $(this).find('.add-right').height(height);
+        $(this).find('.add-right').css('line-height', height + 'px');
+        if ($('.pro-img').height() > 0) {
+            clearInterval(hit);
+        }
+    });
+}
