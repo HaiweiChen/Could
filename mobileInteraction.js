@@ -129,3 +129,72 @@ function listMargin() {
         }
     });
 }
+//根据URL判断导航高光
+$(function () {
+    var url = window.location.href.toLowerCase();//toLowerCase()：字符串中的字母转化为小写
+    var suburl = url;
+    if (url.indexOf("?") > -1) {
+        suburl = url.substring(0, url.indexOf("?"));
+    }
+    var spliturl = suburl.split('/');
+    var topurl = spliturl[spliturl.length - 1];
+    console.log(topurl);
+    var list = $('.top-nav .nav-list')
+    if (topurl == 'index.aspx') {
+        list.eq(0).addClass('nav-click').siblings().removeClass('nav-click');
+    }
+});
+//倒计时
+function getRTime() {
+    EndTime = new Date('2016/09/20 00:00:00'); //截止时间
+    NowTime = new Date();
+    var t = EndTime.getTime() - NowTime.getTime();
+    var d = Math.floor(t / 1000 / 60 / 60 / 24);
+    var h = Math.floor(t / 1000 / 60 / 60 % 24);
+    var m = Math.floor(t / 1000 / 60 % 60);
+    var s = Math.floor(t / 1000 % 60);
+    if (t > 0) {
+        var a = h.toString().length;
+        if (a == 1) {h = '0'+h}
+        var b = m.toString().length;
+        if (b == 1) { m = '0' + m }
+        var c = s.toString().length;
+        if (c == 1) { s = '0' + s }
+        document.getElementById("t_h").innerHTML = h;
+        document.getElementById("t_m").innerHTML = m;
+        document.getElementById("t_s").innerHTML = s;
+    } else {
+        document.getElementById("t_h").innerHTML = '00';
+        document.getElementById("t_m").innerHTML = '00';
+        document.getElementById("t_s").innerHTML = '00';
+        clearInterval(time);
+    }
+}
+$(function () {
+  time = setInterval('getRTime()', 1000);
+});
+//根据url后缀t的数值定位nav高光
+$(function () {
+    var url = window.location.href.toLowerCase();
+    var suburl = url;
+    var spliturl = suburl.split('/');
+    var suburl = url.substring(spliturl.lenght);
+    var list = $('.classify li');
+    if (suburl.indexOf("?") > -1) {
+        spliturl = suburl.split('?')[1];
+        if (spliturl.indexOf('t') > -1) {
+            newUrl = spliturl.split('t')[1];
+            t = newUrl.substring(1, 2);
+            if (t == '1') {
+                list.eq(0).addClass('select-fenlei').siblings().removeClass('select-fenlei');
+            } else if (t == '0') {
+                list.eq(1).addClass('select-fenlei').siblings().removeClass('select-fenlei');
+            } else if (t == '2') {
+                list.eq(2).addClass('select-fenlei').siblings().removeClass('select-fenlei');
+            }
+        } else {
+            return false;
+            //list.eq(0).addClass('select-fenlei').siblings().removeClass('select-fenlei');
+        }
+    }
+});
