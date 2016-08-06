@@ -106,7 +106,6 @@ $(function () {
     }
     var spliturl = suburl.split('/');
     var topurl = spliturl[spliturl.length - 1];
-    console.log(topurl);
     var list = $('.top-nav .nav-list')
     if (topurl == 'index.aspx') {
         list.eq(0).addClass('nav-click').siblings().removeClass('nav-click');
@@ -198,3 +197,68 @@ $(function () {
         }
     }
 });
+//json多级列表
+//严格来说json内不允许使用单引号，数组为空者可以用null代替，当字符串为空可以用空双引号
+$(function () {
+  selectChange($('#one'), data);
+  NewSelect("one", "two", "three", "01", "0102", "");
+})
+var two = {};
+var three = {};
+var length = data.length;
+$('#one').on('change', function () {
+  var val = $(this).val();
+  two = {};
+  for (var x = 0; x < data.length; x++) {
+    if (data[x].name == val) {
+      two = data[x].class;
+      if (two == null) {
+        two = {};
+      }
+    }
+  }
+  selectChange($("#two"), two);
+  $("#two").change();
+});
+$('#two').on('change', function () {
+  var val = $(this).val();
+  three = {};
+  for (var x = 0; x < two.length; x++) {
+    if (two[x].name == val) { //find child list from json,use field name  as index
+      three = two[x].class;
+      if (three == null) {
+        three = {};
+      }
+    }
+  }
+  selectChange($("#three"), three);
+    $("#three").change();
+  });
+function selectChange(select, datathis) {
+  select[0].length = 0;
+  if (data != null && datathis.length > 0) {
+    select.show();
+    var html = '';
+    for (var i = 0; i < datathis.length; i++) {
+      html += '<option value="'+ datathis[i].name +'">' + datathis[i].name + '</option>';
+    }
+    select.append(html);
+  }else {
+    select.hide();
+    select[0].options.add(new Option("请选择", ""))
+  }
+}
+function NewSelect() {
+  var ones = $("#" + arguments[0]);
+  var twos = $("#" + arguments[1]);
+  var threes = $("#" + arguments[2]);
+  if (arguments[3] != '') {
+    ones.val(arguments[3]);
+    ones.change();
+    twos.val(arguments[4]);
+    twos.change();
+    threes.val(arguments[5]);
+  }else {
+    ones.change();
+  }
+}
