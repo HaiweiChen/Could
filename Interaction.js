@@ -67,6 +67,8 @@ $(function(){
 $(document).ready(function () {
   $(".right").textSlider({ line: 1, speed: 500, timer: 1000 });
 });
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 //6.数字滚动
 function number(str) {
   var list = $('.number li');
@@ -90,6 +92,8 @@ function number(str) {
     list.eq(index).find('div').animate({ marginTop: upHeight }, '500');
   });
 }
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 //7.锁定bottom-list-wrapper区域以外cart-shadow的触摸事件
 $('.cart-shadow').bind('touchmove',function(e){
   var target = $(e.target);
@@ -97,6 +101,8 @@ $('.cart-shadow').bind('touchmove',function(e){
     return false;
   }
 });
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 //8. 加载时判断导航高光nav
 $(function () {
     var url = window.location.href.toLowerCase();
@@ -111,6 +117,8 @@ $(function () {
         list.eq(0).addClass('nav-click').siblings().removeClass('nav-click');
     }
 });
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 // 9.持续获取图片高度直到获取到为止
 $(function () {
     hit = setInterval('listMargin()', 500);
@@ -128,7 +136,9 @@ function listMargin() {
         }
     });
 }
-//根据URL判断导航高光
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+// 10.根据URL判断导航高光
 $(function () {
     var url = window.location.href.toLowerCase();//toLowerCase()：字符串中的字母转化为小写
     var suburl = url;
@@ -143,7 +153,9 @@ $(function () {
         list.eq(0).addClass('nav-click').siblings().removeClass('nav-click');
     }
 });
-//倒计时
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//11.倒计时
 function getRTime() {
     EndTime = new Date('2016/09/20 00:00:00'); //截止时间
     NowTime = new Date();
@@ -172,7 +184,9 @@ function getRTime() {
 $(function () {
   time = setInterval('getRTime()', 1000);
 });
-//根据url后缀t的数值定位nav高光
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//12.根据url后缀t的数值定位nav高光
 $(function () {
     var url = window.location.href.toLowerCase();
     var suburl = url;
@@ -197,7 +211,9 @@ $(function () {
         }
     }
 });
-//json多级列表
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//13.json多级列表
 //严格来说json内不允许使用单引号，数组为空者可以用null代替，当字符串为空可以用空双引号
 $(function () {
   selectChange($('#one'), data);
@@ -262,3 +278,47 @@ function NewSelect() {
     ones.change();
   }
 }
+//14  动态加载（代码未整理）
+//在列表wrapper添加ID为contentDV 添加属性lang="【当前页】★【最大页】"
+var url = window.location.href.split('?');
+var strurl = "";
+if (url.length > 1) {
+    strurl = "?" + url[url.length - 1];
+}var search = "";
+var siteid = 0;
+var deurl = "#";
+var pIndex = $("#contentDV").attr("lang").split('★')[0] * 1 + 1;
+var maxIndex = $("#contentDV").attr("lang").split('★')[1] * 1;
+var ltlang = $("#title").attr("lang");
+if (ltlang.split('★').length >= 2) {
+    search = ltlang.split('★')[0];
+    siteid = ltlang.split('★')[1];
+    deurl = ltlang.split('★')[2];
+}
+$(document).ready(function () {
+    var categoryID = "-4461";
+    var goodsTypeID = "0";
+    var pIndex = $("#contentDV").attr("lang").split('★')[0] * 1 + 1;
+    ScrollRefresh("content", { range: 30, url: '/small/GoodsListJson/$guid/$openid/' + strurl, type: 'post', data: { t: '3', siteid: siteid, p: $("#contentDV").attr("lang").split('★')[0] * 1 + 1} }, function () {
+        var pIndex = $("#contentDV").attr("lang").split('★')[0] * 1 + 1;
+        if (!$('#home').is(':hidden')) {
+            var json = ScrollRefresh.JSON;
+            //console.log(json.Items.length);
+            for (var i = 0; i < json.Items.length; i++) {
+                if (json.Items[i].Title.length > 22) json.Items[i].Title = json.Items[i].Title.substring(0, 22);
+                if (json.Items[i].Price > 0) {
+                    var html = '';
+                    html += '<li class="block_list">';
+                    html += '<a href="/small/Detail/$guid/$openid?id=' + json.Items[i].ID + '">'
+                    html += '<div class="img_box" style=" background:url(img/cp4.jpg) no-repeat center;"><img src="' + json.Items[i].Pic + '" /></div>'
+                    html += '<div class="img_summary">' + json.Items[i].Title + '</div>'
+                    html += '<div class="buy"><p>¥</p><span>' + json.Items[i].Price + '</span><span class="buy-button"></span></div>'
+                    html += ' </a></li>'
+                    $("#home .block_content").append(html);
+                    $("#contentDV").attr("lang", pIndex + "★" + maxIndex);
+                }
+            }
+        }
+    });
+
+});
