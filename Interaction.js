@@ -322,3 +322,7 @@ $(document).ready(function () {
     });
 
 });
+//阻止事件冒泡到父元素，阻止任何父事件处理程序被执行。
+$('#div').click(function(e){
+  e.stopPropagation();
+});
