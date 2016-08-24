@@ -36,7 +36,7 @@ function time(){
 $('.pop-btn').click(function(){
   $('.shadow').show();//弹窗图层显示
   //监听,并阻止touchmove事件,将阻止默认事件赋值给a
-  document.addEventListener("touchmove", a = function (e) {
+  body.addEventListener("touchmove", a = function (e) {
     e.preventDefault();
   }, false);
 });

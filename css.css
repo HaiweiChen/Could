@@ -31,3 +31,5 @@ img{
   filter: url(blur.svg#blur);
   z-index: -1;
 }
+/*苹果浏览器滚动卡顿*/
+-webkit-overflow-scrolling: touch;
