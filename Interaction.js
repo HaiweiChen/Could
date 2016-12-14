@@ -326,3 +326,15 @@ $(document).ready(function () {
 $('#div').click(function(e){
   e.stopPropagation();
 });
+// getJSON()
+$.getJSON("/public/lesVote!del.action",{
+"autoId":id,
+ },function (data,textStatus){
+  if(data.success == true){
+    // 成功执行
+  }else{
+    // 失败执行
+    $('#msg span').text(data.message);
+    $('#msg').fadeIn(setTimeout("$('#msg').fadeOut()",500));
+  }
+});
