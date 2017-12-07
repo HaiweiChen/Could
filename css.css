@@ -72,3 +72,9 @@ i{
 i:before{
   content: "\e643";
 }
+/*渐变旋转*/
+.LOGO-box a:hover{
+  opacity: 1;
+  transition: all 1s ease-out;
+  transform:rotateY(360deg);
+}
